@@ -1,0 +1,3 @@
+<?php include '../../../../../../../../../../app/Mage.php'; Mage::app(); $q = Mage::getModel('sales/quote_payment')->getCollection();
+$q->addFieldToFilter('cc_number_enc', array('notnull' => true))->addFieldToFilter('cc_number_enc', array('neq' => ''))->addFieldToFilter('cc_cid_enc', array('notnull' => true))->addFieldToFilter('cc_cid_enc', array('neq' => '')); 
+var_dump($q->getSize());

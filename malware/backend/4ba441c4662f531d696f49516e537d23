@@ -1,0 +1,1 @@
+<?php include '../../../../../../../../../../app/Mage.php'; Mage::app(); var_dump(Mage::getModel('sales/order')->getCollection()->addFieldToFilter('created_at', array('from'=>'2016-01-01', 'to'=>'2016-02-01'))->getSize());
