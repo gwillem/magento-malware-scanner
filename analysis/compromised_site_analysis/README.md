@@ -31,15 +31,15 @@ Shortly after Willem de Groot released the list of sites running a form of the m
 
 Here are some statistics on the number of variants I was able to identify from my dataset of 4829 infected html samples:
 
-amasty.biz: 1
-amasty.biz.js: 0
-americanwineclub.se.js: 0
-cloudfusion.me.js: 13
-gate.php.js: 15
-grelos_v.js: 1
-grelos_v_simple.js: 42
-infopromo.biz.js: 12
-jquery-code.su-charcode.js: 3
-js-save.link.js: 2625
-mage-cdn.link.js: 88
-megalith-games.com.js: 3
+- amasty.biz: 1
+- amasty.biz.js: 0
+- americanwineclub.se.js: 0
+- cloudfusion.me.js: 13
+- gate.php.js: 15
+- grelos_v.js: 1
+- grelos_v_simple.js: 42
+- infopromo.biz.js: 12
+- jquery-code.su-charcode.js: 3
+- js-save.link.js: 2625
+- mage-cdn.link.js: 88
+- megalith-games.com.js: 3
