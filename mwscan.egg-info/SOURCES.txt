@@ -1,0 +1,10 @@
+setup.py
+mwscan/__init__.py
+mwscan/mwscan.py
+mwscan.egg-info/PKG-INFO
+mwscan.egg-info/SOURCES.txt
+mwscan.egg-info/dependency_links.txt
+mwscan.egg-info/entry_points.txt
+mwscan.egg-info/requires.txt
+mwscan.egg-info/top_level.txt
+mwscan/data/all-confirmed.yar
