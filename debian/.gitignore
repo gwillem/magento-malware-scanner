@@ -1,0 +1,8 @@
+debhelper-build-stamp
+files
+python*-mwscan.debhelper.log
+python*-mwscan.postinst.debhelper
+python*-mwscan.prerm.debhelper
+python*-mwscan.substvars
+python*-mwscan/
+
