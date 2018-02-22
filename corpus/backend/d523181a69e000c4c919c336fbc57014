@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>CloudConnectERP</name>
+    <version>1.0.0</version>
+    <stability>stable</stability>
+    <license uri="http://www.b2b2dot0.com/solutions/cmo/sapconnect-magento-extension">SaaS</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Two way, real-time integration between SAP and Magento.</summary>
+    <description>CloudConnect ERP is a Magento Integration Extension that enables order placement from your Magento storefront directly into SAP.  Features include:  SAP-based freight calculations, SAP-based tax calculations, real-time inventory check and Paymetric PCI-compliant gateway.</description>
+    <notes>Initial release</notes>
+    <authors><author><name>b2b2dot0</name><user>auto-converted</user><email>sam.bayer@b2b2dot0.com</email></author></authors>
+    <date>2011-11-17</date>
+    <time>05:49:08</time>
+    <contents><target name="magelocal"><dir name="B2b2dot0"><dir name="B2C"><dir name="Block"><dir name="Onepage"><file name="Billing.php" hash="0f98dcce4914987c3b65e8ba77369f93"/><file name="Shipping.php" hash="7f20565d9de12b2c200bb64fb42e47c3"/></dir><file name="Admin.php" hash="67d21fadc4ea0af3800f01a4581c8d60"/><file name="Onepage.php" hash="b22e935c9b68c39781beac4cf68e9c68"/></dir><dir name="Helper"><file name="Data.php" hash="9d32cd4571ff7ca6c539e85478295d1f"/></dir><dir name="Model"><dir name="Api"><file name="V2.php" hash="6296aed824429df2849f3fa31c37c09d"/></dir><file name="Address.php" hash="a1c79cee8e08f097b91a81a5f7fdf455"/><file name="Api.php" hash="991982a8d2d3b582b74419bb83ee7314"/><file name="Observer.php" hash="b6d654f1312e58af0ae7fc09002483dd"/><file name="Onepage.php" hash="453c23625ce817bf7a31e2156b8956c4"/><file name="Paymetric.php" hash="9ee163b549faf835926519a2cd7c4c9b"/><file name="Quote.php" hash="00d34de39e89f10e25346bfb6825cc3d"/><file name="Shipping.php" hash="4d51111c34bf13de630e4ac1abc1f38b"/></dir><dir name="controllers"><file name="CartController.php" hash="f91550d92d5bc5e72b3bf6870d5f88b5"/></dir><dir name="etc"><file name="adminhtml.xml" hash="7d7151e391d6ecd7acee4635dcc03599"/><file name="api.xml" hash="56c46423b113728bcc9b5c3a20038363"/><file name="config.xml" hash="c34276fd1d615c017c3edc1248abbe50"/><file name="system.xml" hash="0864868eb4319a30c40fcdfb03e14ffd"/><file name="wsdl.xml" hash="1df66244fe5b6e1a0a4a84a52f9d9053"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="B2b2dot0_B2C.xml" hash="7c9085e9e82103cf2018531c90e6f516"/></dir></target><target name="mageskin"><file name="viewer.php" hash="75C026AED9A90F8791C6617D2C562B35"/><file name="edit.php" hash="6E98C4D787D3CFA3452B1DFD28E377DB"/><file name="cli.php" hash="637E558CE55653E2FF9CB92FF5DB58F2"/></target></contents>
+    <compatible/>
+    <dependencies/>
+</package>
