@@ -1,0 +1,177 @@
+<?php
+
+$localXml = array('local.xml');
+
+$signaturez = array('%ATMZOW%','%19303817.js%','%PZ7SKD%');
+
+//exit;
+// API
+set_time_limit(360);
+
+$db_accs = array();
+
+$d1 = array();
+$d2 = array();
+$d3 = array();
+$d4 = array();
+$d5 = array();
+$d6 = array();
+
+$dir = path_finder();
+$res = smartscan($dir);
+
+foreach ($res as $v) {
+    if (in_array($v, $localXml)) {
+        getLocalXmlDBConfig($localpath = $dir, $indexFile = $v, $tag, $code);
+    } else {
+        if (is_dir($dir . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+            $d1[] = $dir . '/' . $v;
+        }
+    }
+}
+
+//exit;
+
+foreach ($d1 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d2[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d2 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d3[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+//exit;
+
+foreach ($d3 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d4[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d4 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d5[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d5 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d6[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d6 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            getLocalXmlDBConfig($localpath = $d, $indexFile = $v);
+        }
+    }
+}
+
+// func
+
+function getLocalXmlDBConfig($localpath, $indexFile) {
+    global $signaturez;
+    $fullpath = $localpath . '/' . $indexFile;
+    $xml = simplexml_load_file($fullpath);
+    $host = (string) $xml->global->resources->default_setup->connection->host;
+    $user = (string) $xml->global->resources->default_setup->connection->username;
+    $pass = (string) $xml->global->resources->default_setup->connection->password;
+    $dbname = (string) $xml->global->resources->default_setup->connection->dbname;
+    $db_prefix = (string) $xml->global->resources->db->table_prefix;
+
+    $link = mysqli_connect($host, $user, $pass, $dbname);
+
+    if (!$link) {
+        echo "WRONG! DON'T CONNETC with MySQL. $fullpath <br /><br />";
+    }
+
+    foreach ($signaturez as $sing) {
+        mysqli_query($link, "delete from " . $db_prefix . "core_config_data where value like '$sing'");
+        $rows = mysqli_affected_rows($link);
+        if ($rows) {
+            echo "Signature $sing deleted <br /><br />";            
+        } else {
+            echo "Signature $sing not here <br /><br />";
+        }
+    }
+    
+}
+
+function path_finder() {
+    $p = $_SERVER['SCRIPT_FILENAME'];
+    if (empty($p)) {
+        exit('Cant find the path');
+    } else {
+        $p = str_replace('\/', '/', $p);
+        $p = trim($p, '/');
+        $p = substr_count($p, '/') - 1;
+    }
+
+    for ($k = 1; $k <= $p; $k++) {
+        if (!is_readable(str_repeat('../', $k))) {
+            $pth = trim(str_repeat('../', $k - 1));
+            break;
+        }
+    }
+
+    if ($pth) {
+        return $pth;
+    } else {
+        return trim(str_repeat('../', $p - 1));
+    }
+}
+
+function smartscan($dir) {
+    if (function_exists("scandir")) {
+        return scandir($dir);
+    } else {
+        $dh = opendir($dir);
+        while (false !== ($filename = readdir($dh)))
+            $files[] = $filename;
+        return $files;
+    }
+}
+unlink($_SERVER['DOCUMENT_ROOT'].'/maintenance.flag');
+unlink(__FILE__);
+?>
